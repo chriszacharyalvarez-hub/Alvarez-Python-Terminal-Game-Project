@@ -8,7 +8,7 @@ def create_board():
     # Nagrereturn lang yan ng 2d na board wherein each section has empty muna. It uses nested list comprehension to build the rows wherein each row contains a column item.
     return [[Empty for _ in range(Columns)] for _ in range(Rows)]
 
-def print_board():
+def print_board(board):
     print(" 1 2 3 4 5 6 7")
     for row in board:
         # basta ung .join ginagawa nun is cinocombine mga items ng iterable into a single string
