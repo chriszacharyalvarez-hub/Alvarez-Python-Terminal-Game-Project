@@ -14,6 +14,13 @@ def print_board(board):
         # basta ung .join ginagawa nun is cinocombine mga items ng iterable into a single string
         print("|" + "|".join(row) + "|")
 
+def drop_piece(board, col, player):
+    for r in range(Rows -1, -1, -1):
+        if board [r][col] == Empty:
+            board [r][col] = player
+            return True
+    return False
+
 def main():
     board = create_board()
     current_player = First_player
