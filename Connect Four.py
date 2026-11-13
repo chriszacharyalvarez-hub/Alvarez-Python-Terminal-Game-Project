@@ -21,6 +21,15 @@ def drop_piece(board, col, player):
             return True
     return False
 
+def check_winner(board, player):
+    for r in range(Rows):
+        for c in range (Columns - 3):
+            if (board[r][c] == player and
+                board[r][c+1] == player and
+                board[r][c+2] == player and 
+                board[r][c+3] == player):
+                return True
+
 def main():
     board = create_board()
     current_player = First_player
@@ -32,11 +41,21 @@ def main():
         user_input = input(f"Player {current_player}, choose a column to place your disc (1-7) or 'q' to quit the game.")
 
 # yung .islower ==, ano lang yan kumbaga ginagawang case insensitive para kahit capital Q man nilagay ni user edi meaning parin nun is q which is to exit 
-        if user_input.islower() == 'q': 
+        if user_input.lower() == 'q': 
             print("Thank you for playing Connect Four!")
             break
         # Drop logic na toh repa
-        print(f"You selected {user_input}.")
+        if not user_input.isdigit() or not (1 <= int(user_input) <= Columns):
+            print("Invalid column! Please enter a number from 1 to 7.")
+            continue
+
+        col = int(user_input) - 1  # Convert 1-7 to 0-6 index
+
+        if drop_piece(board, col, current_player):
+            print_board(board)
+        else:
+            print("Column is full! Try a different one.")
+            continue
 
         # Magswitch lang ung player kasi tapos na player one
         current_player = Second_player if current_player == First_player else First_player
