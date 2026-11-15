@@ -22,12 +22,22 @@ def drop_piece(board, col, player):
     return False
 
 def check_winner(board, player):
+    # Horizontal wins palang dis
     for r in range(Rows):
         for c in range (Columns - 3):
             if (board[r][c] == player and
                 board[r][c+1] == player and
                 board[r][c+2] == player and 
                 board[r][c+3] == player):
+                return True
+    # Vertical wins naman dis
+    for r in range(Rows - 3):
+        for c in range(Columns):
+            if (
+                board[r][c] == player and
+                board[r+1][c+1] == player and
+                board[r+2][c+2] == player and 
+                board[r+3][c+3] == player):
                 return True
 
 def main():
