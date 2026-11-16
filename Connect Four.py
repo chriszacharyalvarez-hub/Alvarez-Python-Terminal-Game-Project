@@ -20,6 +20,7 @@ def drop_piece(board, col, player):
             board [r][col] = player
             return True
     return False
+    
 
 def check_winner(board, player):
     # Horizontal wins palang dis
