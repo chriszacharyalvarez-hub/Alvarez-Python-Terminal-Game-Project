@@ -20,7 +20,7 @@ def drop_piece(board, col, player):
             board [r][col] = player
             return True
     return False
-    
+
 
 def check_winner(board, player):
     # Horizontal wins palang dis
@@ -36,10 +36,20 @@ def check_winner(board, player):
         for c in range(Columns):
             if (
                 board[r][c] == player and
-                board[r+1][c+1] == player and
+                board[r+1][c] == player and
+                board[r+2][c] == player and 
+                board[r+3][c] == player):
+                return True
+    # Checking diagonal wins but down-right (\)
+    for r in range(Rows - 3):
+        for c in range(Columns - 3):
+            if (board[r][c] == player and 
+                board[r+1][c+1] == player and 
                 board[r+2][c+2] == player and 
                 board[r+3][c+3] == player):
                 return True
+
+    return False
 
 def main():
     board = create_board()
@@ -62,8 +72,13 @@ def main():
 
         col = int(user_input) - 1  # Convert 1-7 to 0-6 index
 
+        # NEW BLOCK WITH WIN CHECK
         if drop_piece(board, col, current_player):
             print_board(board)
+
+            if check_winner(board, current_player):
+                print(f"Congratulations! Player {current_player} wins!")
+                break
         else:
             print("Column is full! Try a different one.")
             continue
