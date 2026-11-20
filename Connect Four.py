@@ -48,6 +48,14 @@ def check_winner(board, player):
                 board[r+2][c+2] == player and 
                 board[r+3][c+3] == player):
                 return True
+    # Checking diagonal wins but up-right (/)
+    for r in range(3, rows):
+        for c in range(Columns - 3):
+            if (board[r][c] == player and
+                board[r-1][c+1] == player and
+                board[r-2][c+2] == player and
+                board[r-3][c+3] == player):
+                return True
 
     return False
 
