@@ -21,7 +21,6 @@ def drop_piece(board, col, player):
             return True
     return False
 
-
 def check_winner(board, player):
     # Horizontal wins palang dis
     for r in range(Rows):
@@ -56,8 +55,11 @@ def check_winner(board, player):
                 board[r-2][c+2] == player and
                 board[r-3][c+3] == player):
                 return True
-
     return False
+
+def is_board_full(board):
+    # Kapag wala nang '.' sa pinakataas na row (row 0), puno na ung buong board
+    return Empty not in board[0]
 
 def main():
     board = create_board()
@@ -86,6 +88,9 @@ def main():
 
             if check_winner(board, current_player):
                 print(f"Congratulations! Player {current_player} wins!")
+                break
+            elif is_board_full(board):
+                print("There are no more spaces, it's a tie")
                 break
         else:
             print("Column is full! Try a different one.")
