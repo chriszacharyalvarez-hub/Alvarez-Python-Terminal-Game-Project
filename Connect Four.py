@@ -1,3 +1,4 @@
+# My Variables
 Rows = 6
 Columns = 7 
 Empty = '.'
@@ -58,7 +59,7 @@ def check_winner(board, player):
     return False
 
 def is_board_full(board):
-    # Kapag wala nang '.' sa pinakataas na row (row 0), puno na ung buong board
+    # Kapag wala nang Empty variable or '.' sa pinakataas na row (row 0), puno na ung buong board
     return Empty not in board[0]
 
 def main():
@@ -77,7 +78,7 @@ def main():
             break
         # Drop logic na toh repa
         if not user_input.isdigit() or not (1 <= int(user_input) <= Columns):
-            print("Invalid column! Please enter a number from 1 to 7.")
+            print("Invalid column broskie! Please enter a number from 1 to 7 only.")
             continue
 
         col = int(user_input) - 1  # Convert 1-7 to 0-6 index
@@ -87,10 +88,10 @@ def main():
             print_board(board)
 
             if check_winner(board, current_player):
-                print(f"Congratulations! Player {current_player} wins!")
+                print(f"Congratulations! Player {current_player} wins the game!")
                 break
             elif is_board_full(board):
-                print("There are no more spaces, it's a tie")
+                print("There are no more spaces, it's a tie!")
                 break
         else:
             print("Column is full! Try a different one.")
