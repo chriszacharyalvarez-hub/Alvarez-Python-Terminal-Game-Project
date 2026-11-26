@@ -19,8 +19,8 @@ def drop_piece(board, col, player):
     for r in range(Rows -1, -1, -1):
         if board [r][col] == Empty:
             board [r][col] = player
-            return True
-    return False
+            return r
+    return None
 
 def check_winner(board, player):
     # Horizontal wins palang dis
@@ -65,26 +65,52 @@ def is_board_full(board):
 def main():
     board = create_board()
     current_player = First_player
+    move_history = []
+    undos_left = {First_player: 1, Second_player: 1}
 
     print("----- Connect Four -----")
     print_board(board)
 
     while True:
-        user_input = input(f"Player {current_player}, choose a column to place your disc (1-7) or 'q' to quit the game.")
+        user_input = input(f"Player {current_player} (Undos: {undos_left[current_player]}), choose a column (1-7), 'u' to undo, or 'q' to quit: ")
 
 # yung .islower ==, ano lang yan kumbaga ginagawang case insensitive para kahit capital Q man nilagay ni user edi meaning parin nun is q which is to exit 
         if user_input.lower() == 'q': 
             print("Thank you for playing Connect Four!")
             break
+
+# Undo Logic
+        if user_input.lower() == 'u':
+            if undos_left[current_player] == 0:
+                print(f"Player {current_player} has already used their 1 undo!")
+                continue
+            if len(move_history) < 2:
+                print("Nothing to undo yet! Make a move first.")
+                continue
+
+            # Remove opponent's last move AND current player's previous move so current player can re-do their turn
+            last_r, last_c, _ = move_history.pop()
+            board[last_r][last_c] = Empty
+
+            prev_r, prev_c, _ = move_history.pop()
+            board[prev_r][prev_c] = Empty
+
+            undos_left[current_player] -= 1
+            print(f"Player {current_player} undid their last move! (0 undos remaining)")
+            print_board(board)
+            continue
+
         # Drop logic na toh repa
         if not user_input.isdigit() or not (1 <= int(user_input) <= Columns):
             print("Invalid column broskie! Please enter a number from 1 to 7 only.")
             continue
 
         col = int(user_input) - 1  # Convert 1-7 to 0-6 index
+        row = drop_piece(board, col, current_player)
 
         # NEW BLOCK WITH WIN CHECK
-        if drop_piece(board, col, current_player):
+        if row is not None:
+            move_history.append((row, col, current_player))
             print_board(board)
 
             if check_winner(board, current_player):
